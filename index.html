@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Chat UI – Screenshot Replica</title>
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin="crossorigin">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+            rel="stylesheet">
+        <style>
+            :root {
+                --app-bg: #eceff3;
+                --chat-bg: #f7f8fb;
+                --text: #111827;
+                --muted: #9aa0a6;
+                --bubble-left: #ffffff;
+                --bubble-right: #7a6df7;
+                --bubble-left-text: #111827;
+                --bubble-right-text: #ffffff;
+                --shadow: 0 6px 30px rgba(30, 41, 59, 0.08);
+                --radius: 18px;
+                --phone-radius: 28px;
+                --phone-width: 420px;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+            body,
+            html {
+                height: 100%;
+            }
+            body {
+                margin: 0;
+                font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+                background: linear-gradient(180deg, #e9eef5 0%, #e5ebf3 100%);
+                color: var(--text);
+                display: grid;
+                place-items: center;
+                padding: 24px;
+            }
+
+            .phone {
+                width: min(100%, var(--phone-width));
+                height: 780px;
+                background: var(--chat-bg);
+                border-radius: var(--phone-radius);
+                box-shadow: var(--shadow);
+                border: 1px solid rgba(0,0,0,0.05);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+
+            .topbar {
+                height: 56px;
+                display: flex;
+                align-items: center;
+                padding: 0 16px;
+                background: #ffffff;
+                border-bottom: 1px solid rgba(0,0,0,0.06);
+            }
+            .topbar .title {
+                font-weight: 600;
+                font-size: 15px;
+            }
+
+            .chat {
+                flex: 1;
+                padding: 16px 14px 22px;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                overflow: auto;
+            }
+
+            .message {
+                width: 100%;
+                display: flex;
+                align-items: flex-end;
+                gap: 8px;
+            }
+            .message .avatar {
+                flex: 0 0 34px;
+                width: 34px;
+                height: 34px;
+                border-radius: 999px;
+                background: linear-gradient(135deg, #ffd7d7, #ffe9b3);
+                color: #212121;
+                font-size: 14px;
+                font-weight: 700;
+                display: grid;
+                place-items: center;
+                user-select: none;
+            }
+
+            .content {
+                max-width: 78%;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .bubble {
+                position: relative;
+                padding: 10px 12px;
+                border-radius: var(--radius);
+                line-height: 1.45;
+                word-break: keep-all;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+                font-size: 14px;
+            }
+            .left .bubble {
+                background: var(--bubble-left);
+                color: var(--bubble-left-text);
+            }
+            .right {
+                justify-content: flex-end;
+            }
+            .right .content {
+                align-items: flex-end;
+            }
+            .right .bubble {
+                background: var(--bubble-right);
+                color: var(--bubble-right-text);
+            }
+
+            .left .bubble::after {
+                content: "";
+                position: absolute;
+                left: -6px;
+                bottom: 8px;
+                border-width: 6px;
+                border-style: solid;
+                border-color: transparent;
+                border-right-color: var(--bubble-left);
+                filter: drop-shadow(0 1px 0 rgba(0,0,0,0.06));
+            }
+            .right .bubble::after {
+                content: "";
+                position: absolute;
+                right: -6px;
+                bottom: 8px;
+                border-width: 6px;
+                border-style: solid;
+                border-color: transparent;
+                border-left-color: var(--bubble-right);
+                filter: drop-shadow(0 1px 0 rgba(0,0,0,0.06));
+            }
+
+            .meta {
+                font-size: 11px;
+                color: var(--muted);
+            }
+            .meta.right {
+                text-align: right;
+            }
+
+            .composer {
+                display: flex;
+                gap: 10px;
+                background: #fff;
+                padding: 12px;
+                border-top: 1px solid rgba(0,0,0,0.06);
+            }
+            .composer textarea {
+                flex: 1;
+                min-height: 40px;
+                max-height: 25vh;
+                resize: none;
+                border: 1px solid rgba(0,0,0,0.08);
+                border-radius: 12px;
+                padding: 10px 12px;
+                font-size: 14px;
+                background: #fafafa;
+                outline: none;
+                font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            }
+            .composer textarea::placeholder {
+                font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+                color: #9ca3af;
+                font-size: 14px;
+            }
+            .composer button {
+                height: 40px;
+                padding: 0 14px;
+                border: 0;
+                border-radius: 12px;
+                background: var(--bubble-right);
+                color: #fff;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 4px 14px rgba(122,109,247,0.35);
+            }
+
+            @media (max-width: 460px) {
+                .phone {
+                    height: 88vh;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main class="phone" role="application" aria-label="채팅 미리보기">
+            <header class="topbar">
+                <div class="title">대화</div>
+            </header>
+            <section class="chat" aria-live="polite"></section>
+            <footer class="composer" aria-label="메시지 입력">
+                <textarea id="composerTextarea" placeholder="메시지를 입력하세요" rows="1"></textarea>
+                <button type="button" onclick="sendMessage()">전송</button>
+            </footer>
+        </main>
+        <script>
+            const textarea = document.getElementById('composerTextarea');
+            const chat = document.querySelector('.chat');
+
+            const defaultMessages = [
+                {
+                    side: 'left',
+                    text: '정이이인!!!!! 🎉🎉',
+                    time: '오전 9:02'
+                }, {
+                    side: 'left',
+                    text: '드디어 정인이 생일이구만 끄아아아앙 🥳',
+                    time: '오전 09:02'
+                }, {
+                    side: 'left',
+                    text: '오늘 하루 그냥 니가 주인공이야 ㅋㅋㅋㅋ',
+                    time: '오전 09:02'
+                }, {
+                    side: 'left',
+                    text: '맛난 거 잔뜩 먹고 웃을 일만 가득해라아아 💜',
+                    time: '오전 09:02'
+                }, {
+                    side: 'left',
+                    text: '나 멀리서도 응원중인 거 알지?',
+                    time: '오전 09:02'
+                }, {
+                    side: 'left',
+                    text: '정인아 생일 진짜진짜 축하해애애애 🎂✨',
+                    time: '오전 09:02'
+                }
+            ];
+
+            function sendMessage() {
+                const text = textarea
+                    .value
+                    .trim();
+                if (!text) 
+                    return;
+                appendMessage(text, 'right', nowKoreanTime());
+                textarea.value = '';
+            }
+
+            function appendMessage(text, side, time) {
+                const msg = document.createElement('div');
+                msg.className = 'message ' + side;
+                if (side === 'left') {
+                    const avatar = document.createElement('div');
+                    avatar.className = 'avatar';
+                    avatar.textContent = '(•ө•)';
+                    msg.appendChild(avatar);
+                }
+                const content = document.createElement('div');
+                content.className = 'content';
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                bubble.textContent = text;
+                const meta = document.createElement('div');
+                meta.className = 'meta' + (
+                    side === 'right'
+                        ? ' right'
+                        : ''
+                );
+                meta.textContent = time;
+                content.appendChild(bubble);
+                content.appendChild(meta);
+                msg.appendChild(content);
+                chat.appendChild(msg);
+                chat.scrollTop = chat.scrollHeight;
+            }
+
+            function nowKoreanTime() {
+                const d = new Date();
+                let h = d.getHours();
+                const m = d
+                    .getMinutes()
+                    .toString()
+                    .padStart(2, '0');
+                const ap = h >= 12
+                    ? '오후'
+                    : '오전';
+                h = h % 12 || 12;
+                return `${ap} ${h}:${m}`;
+            }
+
+            textarea && textarea.addEventListener('input', function () {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, window.innerHeight * 0.25) +
+                        'px';
+            });
+
+            defaultMessages.forEach(msg => appendMessage(msg.text, msg.side, msg.time));
+        </script>
+    </body>
+</html>
