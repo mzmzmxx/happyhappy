@@ -309,20 +309,20 @@
 
             // 자동 답장 로직
             function getAutoReply(userText) {
-                if (userText.includes('생일')) {
-                    return '오옹 축하해애애 ㅎㅎ';
-                }
-                if (userText.includes('안녕')) {
+                if (['안녕', '안뇽'].some(k => userText.includes(k))) {
                     return '안뇽 정인이다아';
                 }
-                if (userText.includes('안뇽')) {
-                    return '안뇽 정인이다아';
+                if (['해피', '생일', '축하'].some(k => userText.includes(k))) {
+                    return '생일 축하해애애 ㅎㅎ';
                 }
-                if (userText.includes('뭐해')) {
+                if (['뭐해', '모해', 'ㅁㅎ', '뭐행'].some(k => userText.includes(k))) {
                     return '정인이 생각중 ㅎㅎ';
                 }
-                if (userText.includes('모해')) {
-                    return '정인이 생각중 ㅎㅎ';
+                if (['보고싶', '보고'].some(k => userText.includes(k))) {
+                    return '나두 정인이 보고싶엉 ㅠㅠㅠ';
+                }
+                if (userText.includes('도영')) {
+                    return '왜에에에에에에엥';
                 }
                 if (userText.includes('ㅋㅋㅋㅋ')) {
                     return '왜 웃어어엉 ㅠㅠㅠ';
@@ -330,6 +330,31 @@
                 if (userText.includes('밥')) {
                     return '밥은 챙겨묵어야지!!!!';
                 }
+                if (['사랑', '좋아해', '하트'].some(k => userText.includes(k))) {
+                    return '끄아아앙앙앙 정인아아아 💜';
+                }
+                if (['심심', '할거없'].some(k => userText.includes(k))) {
+                    return '도영이가 놀아줄게 ㅎㅎ';
+                }
+                if (['잘자', '자라'].some(k => userText.includes(k))) {
+                    return '잘자 정인아 꿈에서 보자';
+                }
+                if (['굿모닝', '잘잤'].some(k => userText.includes(k))) {
+                    return '굿모닝 정인~~ 오늘 하루도 화이팅!!';
+                }
+                if (['고마워', '감사'].some(k => userText.includes(k))) {
+                    return '나도 고맙지 정인아아';
+                }
+                if (['힘들', '피곤'].some(k => userText.includes(k))) {
+                    return '아이구 고생했네 ㅠㅠ 얼른 쉬어';
+                }
+                if (['대박', '헐'].some(k => userText.includes(k))) {
+                    return '헐 미쳤다 ㅋㅋㅋㅋㅋㅋ';
+                }
+                if (['약속', '지켜'].some(k => userText.includes(k))) {
+                    return '약속했으니까 꼭 지켜야 돼!!';
+                }
+
                 const replies = [
                     'ㅋㅋㅋㅋㅋ 정인아 그 말 왜케 웃기냐',
                     '야 그거 인정… 좀 귀여운데?',
