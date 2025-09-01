@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+`<!DOCTYPE html>
 <html lang="ko">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>Chat UI – Screenshot Replica</title>
+        <title>Bubble - 당신의 최애와 대화하세요!</title>
         <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
@@ -223,27 +223,27 @@
                 {
                     side: 'left',
                     text: '정이이인!!!!! 🎉🎉',
-                    time: '오전 9:02'
+                    time: '오전 11:11'
                 }, {
                     side: 'left',
                     text: '드디어 정인이 생일이구만 끄아아아앙 🥳',
-                    time: '오전 09:02'
+                    time: '오전 11:12'
                 }, {
                     side: 'left',
-                    text: '오늘 하루 그냥 니가 주인공이야 ㅋㅋㅋㅋ',
-                    time: '오전 09:02'
+                    text: '오늘 하루 그냥 너가 주인공임 ㅋㅋㅋㅋ',
+                    time: '오전 11:12'
                 }, {
                     side: 'left',
                     text: '맛난 거 잔뜩 먹고 웃을 일만 가득해라아아 💜',
-                    time: '오전 09:02'
+                    time: '오전 11:13'
                 }, {
                     side: 'left',
                     text: '나 멀리서도 응원중인 거 알지?',
-                    time: '오전 09:02'
+                    time: '오전 11:13'
                 }, {
                     side: 'left',
                     text: '정인아 생일 진짜진짜 축하해애애애 🎂✨',
-                    time: '오전 09:02'
+                    time: '오전 11:14'
                 }
             ];
 
@@ -253,8 +253,16 @@
                     .trim();
                 if (!text) 
                     return;
+                
+                // 내가 보낸 메시지 추가
                 appendMessage(text, 'right', nowKoreanTime());
                 textarea.value = '';
+
+                // 자동 답장 (1초 후)
+                setTimeout(() => {
+                    const reply = getAutoReply(text);
+                    appendMessage(reply, 'left', nowKoreanTime());
+                }, 1000);
             }
 
             function appendMessage(text, side, time) {
@@ -299,13 +307,29 @@
                 return `${ap} ${h}:${m}`;
             }
 
+            // 자동 답장 로직
+            function getAutoReply(userText) {
+                if (userText.includes('생일')) {
+                    return '오옹 축하해애애 ㅎㅎ 🎂';
+                }
+                if (userText.includes('안녕')) {
+                    return '안뇽 정인이다아 🙆‍♀️';
+                }
+                if (userText.includes('밥')) {
+                    return '밥은 챙겨묵어야지!!!! 🍚';
+                }
+                const replies = ['ㅋㅋㅋㅋㅋㅋ', '흑흑 고마웡', '미친거 아님?', '끄아아아앙 🎉', '보고싶어어~'];
+                return replies[Math.floor(Math.random() * replies.length)];
+            }
+
             textarea && textarea.addEventListener('input', function () {
                 this.style.height = 'auto';
                 this.style.height = Math.min(this.scrollHeight, window.innerHeight * 0.25) +
                         'px';
             });
 
+            // 초기 메시지 출력
             defaultMessages.forEach(msg => appendMessage(msg.text, msg.side, msg.time));
         </script>
     </body>
-</html>
+</html>`
